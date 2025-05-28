@@ -1,4 +1,6 @@
 apscheduler
-flask==2.2.2
+Flask==2.2.3
+Werkzeug==2.2.2
 psycopg2-binary
 flask_sqlalchemy
+Flask-Migrate

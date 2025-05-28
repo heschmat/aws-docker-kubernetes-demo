@@ -1,16 +1,20 @@
-import logging
 import os
+import logging
+from random import randint
+from datetime import datetime, timedelta
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import datetime, timedelta
+
 from flask import jsonify
 from sqlalchemy import and_, text
-from random import randint
+from flask_migrate import Migrate
 
 from config import app, db
+from models import User, Token
 
 
 port_number = int(os.environ.get("APP_PORT", 5153))
+migrate = Migrate(app, db)
 
 
 @app.route("/health_check")
@@ -79,7 +83,11 @@ def all_user_visits():
 
 scheduler = BackgroundScheduler()
 job = scheduler.add_job(get_daily_visits, 'interval', seconds=30)
-scheduler.start()
+
 
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+    scheduler.start()
     app.run(host="0.0.0.0", port=port_number)
+
