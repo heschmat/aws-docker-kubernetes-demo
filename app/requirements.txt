@@ -4,3 +4,4 @@ Werkzeug==2.2.2
 psycopg2-binary
 flask_sqlalchemy
 Flask-Migrate
+tomli==2.0.1
